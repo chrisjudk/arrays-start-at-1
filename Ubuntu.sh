@@ -22,4 +22,4 @@ echo "/etc/ssh/sshd_config	PermitRootLogin no' |||| Disable Root Login" >> /var/
 echo "Don't Forget to Restart"
 echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords-against-a-dictionary-attack.html"
 # Install libpam-cracklib which is used to check passwords
-# apt-get install libpam-cracklib -y
+apt-get install libpam-cracklib -y
