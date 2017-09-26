@@ -34,4 +34,4 @@ echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords
 echo "installing libpam-cracklib for passwords"
 apt-get install libpam-cracklib -y
 #find all video files
-locate *.mkv *.webm *.flv *.vob *.ogg *.ogv *.drc *gifv *.mng *.avi$ *.mov *.qt *.wmv *.yuv *.rm *.rmvb *.asf *.amv *.mp4$ *.m4v *.mp *.m?v *.svi *.3gp *.flv *.f4v >> /var/local/mediafiles.log
+locate *.mkv *.webm *.flv *.vob *.ogg *.ogv *.drc *.gifv *.mng *.avi$ *.mov *.qt *.wmv *.yuv *.rm *.rmvb *.asf *.amv *.mp4$ *.m4v *.mp *.m?v *.svi *.3gp *.flv *.f4v >> /var/local/mediafiles.log
