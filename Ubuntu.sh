@@ -42,5 +42,5 @@ crontab -l >> /var/local/cronjoblist.log
 apt-get install clamav -y
 # Update clam signatures
 freshclam
-# Run a full scan of the system
-sudo clamscan -r /
+# Run a full scan of the "/home" directory
+sudo clamscan -r /home
