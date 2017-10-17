@@ -2,7 +2,7 @@
 This project is for the "Arrays start at 1" CP team at greenbrier high school.
 # How To Use
 ## Linux
-1. Switch to the /home/<User>/Downloads directory 
+1. Switch to the /home/\<User\>/Downloads directory 
 ```bash
 cd ~/Downloads
 ```
