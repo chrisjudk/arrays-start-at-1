@@ -34,6 +34,15 @@ echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords
 # Install libpam-cracklib which is used to check passwords
 echo "installing libpam-cracklib for passwords"
 apt-get install libpam-cracklib -y
+# Setup Pam config
+sed -e "25s/.*/password	requisite	pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 1credit=-2 ocredit=-1/" /etc/pam.d/common-password > /var/local/temp.txt
+sed -e "26s/.*/password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5/" /var/local/temp.txt > /var/local/temp2.txt
+mv /var/local/temp2.txt /var/local/temp.txt
+mv /etc/pam.d/common-password /etc/pam.d/common-password.old
+mv /var/local/temp.txt /etc/pam.d/common-password
+# Setup password aging policy
+sed -e "s/PASS_MAX_DAYS	99999/PASS_MAX_DAYS	30" /etc/login.defs > /var/local/temp3.txt
+mv /var/local/temp3.txt /etc/login.defs
 # Find all video files
 echo "||||Video Files||||" >> /var/local/mediafiles.log
 locate *.mkv *.webm *.flv *.vob *.ogv *.drc *.gifv *.mng *.avi$ *.mov *.qt *.wmv *.yuv *.rm *.rmvb *.asf *.amv *.mp4$ *.m4v *.mp *.m?v *.svi *.3gp *.flv *.f4v >> /var/local/mediafiles.log
