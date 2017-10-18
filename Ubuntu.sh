@@ -26,11 +26,8 @@ echo -n "" > /var/local/cronjoblist.log
 # Add additional instructions to log file
 echo "adding instructions to log file"
 echo "getent group <groupname> |||| Users in group" >> /var/local/ASAO.log
-echo "/etc/pam.d/common-password	minlen-8 |||| password length" >> /var/local/ASAO.log
-echo "/etc/login.defs |||| Password expiration" >> /var/local/ASAO.log
-echo "/etc/ssh/sshd_config	PermitRootLogin no' |||| Disable Root Login" >> /var/local/ASAO.log
-echo "Don't Forget to Restart"
-echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords-against-a-dictionary-attack.html"
+echo "Don't Forget to Restart" >> /var/local/ASAO.log
+echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords-against-a-dictionary-attack.html" >> /var/local/ASAO.log
 # Install libpam-cracklib which is used to check passwords
 echo "installing libpam-cracklib for passwords"
 apt-get install libpam-cracklib -y
@@ -39,15 +36,17 @@ echo "changing PAM config"
 sed -e "25s/.*/password	requisite	pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 1credit=-2 ocredit=-1/" /etc/pam.d/common-password > /var/local/temp.txt
 sed -e "26s/.*/password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5/" /var/local/temp.txt > /var/local/temp2.txt
 rm /var/local/temp.txt
-mv /etc/pam.d/common-password /etc/pam.d/common-password.old
+cp /etc/pam.d/common-password /etc/pam.d/common-password.old
 mv /var/local/temp2.txt /etc/pam.d/common-password
 # Password aging policy
 echo "setting passwords to reset after 30 days"
 sed -e "s/PASS_MAX_DAYS	99999/PASS_MAX_DAYS	30/" /etc/login.defs > /var/local/temp3.txt
+cp /etc/login.defs /etc/login.defs.old
 mv /var/local/temp3.txt /etc/login.defs
 # SSH daemon config
 echo "disabling root login"
 sed -e "29s/.*/PermitRootLogin no/" > /var/local/temp4.txt
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
 mv /var/local/temp4.txt /etc/ssh/sshd_config
 # Find all video files
 echo "||||Video Files||||" >> /var/local/mediafiles.log
