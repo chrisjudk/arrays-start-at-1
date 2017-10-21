@@ -50,18 +50,23 @@ sed -e "29s/.*/PermitRootLogin no/" > /var/local/temp4.txt
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
 mv /var/local/temp4.txt /etc/ssh/sshd_config
 # Find all video files
+echo "Finding Media Files"
 echo "||||Video Files||||" >> /var/local/mediafiles.log
 locate *.mkv *.webm *.flv *.vob *.ogv *.drc *.gifv *.mng *.avi$ *.mov *.qt *.wmv *.yuv *.rm *.rmvb *.asf *.amv *.mp4$ *.m4v *.mp *.m?v *.svi *.3gp *.flv *.f4v >> /var/local/mediafiles.log
 echo "||||Audo Files||||" >> /var/local/mediafiles.log
 locate *.3ga *.aac *.aiff *.amr *.ape *.arf *.asf *.asx *.cda *.dvf *.flac *.gp4 *.gp5 *.gpx *.logic *.m4a *.m4b *.m4p *.midi *.mp3 *.pcm *.rec *.snd *.sng *.uax *.wav *.wma *.wpl *.zab >> /var/local/mediafiles.log
 # Lists all cronjobs & output to /var/local/cronjoblist.log
+echo "Outputting cronjobs to /var/local/cronjoblist.log"
 crontab -l >> /var/local/cronjoblist.log
 # List all connections, open or listening
-echo "finding open connections and outputting to netstat.log"
+echo "finding open connections and outputting to /var/local/netstat.log"
 ss -an4 > /var/local/netstat.log 
 # Install clam antivirus
+echo "installing clam antivirus"
 apt-get install clamav -y
 # Update clam signatures
+echo "updating clam signatures"
 freshclam
 # Run a full scan of the "/home" directory
+echo "running full scan of /home directory"
 sudo clamscan -r /home
