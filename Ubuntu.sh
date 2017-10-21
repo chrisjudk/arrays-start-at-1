@@ -20,6 +20,7 @@ echo "creating /var/local"
 mkdir /var/local/
 # Create/clear log files
 echo "creating log files in /var/local"
+echo -n "" > /var/local/netstat.log
 echo -n "" > /var/local/ASAO.log
 echo -n "" > /var/local/mediafiles.log
 echo -n "" > /var/local/cronjoblist.log
@@ -55,6 +56,9 @@ echo "||||Audo Files||||" >> /var/local/mediafiles.log
 locate *.3ga *.aac *.aiff *.amr *.ape *.arf *.asf *.asx *.cda *.dvf *.flac *.gp4 *.gp5 *.gpx *.logic *.m4a *.m4b *.m4p *.midi *.mp3 *.pcm *.rec *.snd *.sng *.uax *.wav *.wma *.wpl *.zab >> /var/local/mediafiles.log
 # Lists all cronjobs & output to /var/local/cronjoblist.log
 crontab -l >> /var/local/cronjoblist.log
+# List all connections, open or listening
+echo "finding open connections and outputting to netstat.log"
+ss -an4 > /var/local/netstat.log 
 # Install clam antivirus
 apt-get install clamav -y
 # Update clam signatures
