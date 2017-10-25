@@ -44,25 +44,35 @@ apt-get install libpam-cracklib -y
 
 # Pam config
 echo "changing PAM config"
-sed -e "25s/.*/password	requisite	pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 1credit=-2 ocredit=-1/" /etc/pam.d/common-password > /var/local/temp.txt
-sed -e "26s/.*/password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5/" /var/local/temp.txt > /var/local/temp2.txt
+# grep for 'pam_unix.so' and get line number
+PAMUNIX="$(grep -n 'pam_unix.so' /etc/pam.d/common-password | grep -v '#' | cut -f1 -d:)"
+sed -e "${PAMUNIX}s/.*/password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass sha512 remember=5/" /etc/pam.d/common-password > /var/local/temp.txt
+#grep for 'pam_cracklib.so' and get line number
+PAMCRACKLIB="$(grep -n 'pam_cracklib.so' /etc/pam.d/common-password | grep -v '#' | cut -f1 -d:)"
+sed -e "${PAMCRACKLIB}s/.*/password	requisite	pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 1credit=-2 ocredit=-1/" /var/local/temp.txt > /var/local/temp2.txt
 rm /var/local/temp.txt
 cp /etc/pam.d/common-password /etc/pam.d/common-password.old
 mv /var/local/temp2.txt /etc/pam.d/common-password
 
 # Password aging policy
 echo "setting passwords to reset after 30 days"
-sed -e "s/PASS_MAX_DAYS	99999/PASS_MAX_DAYS	30/" /etc/login.defs > /var/local/temp3.txt
+PASSMAX="$(grep -n 'PASS_MAX_DAYS' /etc/login.defs | grep -v '#' | cut -f1 -d:)"
+sed -e "${PASSMAX}s/.*/PASS_MAX_DAYS	90/" /etc/login.defs > /var/local/temp1.txt
+PASSMIN="$(grep -n 'PASS_MIN_DAYS' /etc/login.defs | grep -v '#' | cut -f1 -d:)"
+sed -e "${PASSMIN}s/.*/PASS_MIN_DAYS	10/" /var/local/temp1.txt > /var/local/temp2.txt
+PASSWARN="$(grep -n 'PASS_WARN_AGE' /etc/login.defs | grep -v '#' | cut -f1 -d:)"
+sed -e "${PASSWARN}s/.*/PASS_WARN_AGE	7/" /var/local/temp2.txt > /var/local/temp3.txt
 cp /etc/login.defs /etc/login.defs.old
 mv /var/local/temp3.txt /etc/login.defs
+rm /var/local/temp1.txt /var/local/temp2.txt
 
 # SSH daemon config
 echo "disabling root login"
 # get the line number of the PermitRootLogin line
 PRL="$(grep -n 'PermitRootLogin' etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
-sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config> /var/local/temp4.txt
+sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config> /var/local/temp1.txt
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
-mv /var/local/temp4.txt /etc/ssh/sshd_config
+mv /var/local/temp1.txt /etc/ssh/sshd_config
 
 # Find all video files
 echo "Finding Media Files"
