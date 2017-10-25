@@ -79,7 +79,7 @@ mv /var/local/temp1.txt /etc/ssh/sshd_config
 
 # Disable the guest account
 echo "disabling guest account"
-echo "allow-guest" >> /etc/lightdm/lightdm.conf
+echo "allow-guest=false" >> /etc/lightdm/lightdm.conf
 
 # Find all video files
 echo "Finding Media Files"
