@@ -77,6 +77,10 @@ sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config> /var/local/temp1.t
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
 mv /var/local/temp1.txt /etc/ssh/sshd_config
 
+# Disable the guest account
+echo "disabling guest account"
+echo "allow-guest" >> /etc/lightdm/lightdm.conf
+
 # Find all video files
 echo "Finding Media Files"
 echo "||||Video Files||||" >> /var/local/mediafiles.log
