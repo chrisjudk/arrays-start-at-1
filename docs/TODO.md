@@ -7,7 +7,7 @@
     auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800
     ```
 - [ ] add check for sudoers
-- [ ] edit /etc/lightdm/users.conf
+- [x] edit /etc/lightdm/users.conf
     ```bash
     allow-guest=false
     ```
