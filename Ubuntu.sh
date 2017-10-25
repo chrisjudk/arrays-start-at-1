@@ -66,6 +66,9 @@ cp /etc/login.defs /etc/login.defs.old
 mv /var/local/temp3.txt /etc/login.defs
 rm /var/local/temp1.txt /var/local/temp2.txt
 
+# Password Lockout
+echo "auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800" >> /etc/pam.d/common-auth
+
 # SSH daemon config
 echo "disabling root login"
 # get the line number of the PermitRootLogin line
