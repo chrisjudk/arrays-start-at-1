@@ -1,7 +1,7 @@
 # To Do
 ## Linux
 - [ ] automate adding users and changing passwords?
-- [ ] correct the sed command for "Permit root login"
+- [x] correct the sed command for "Permit root login"
 - [ ] append the following to /etc/pam.d/common-password
 - [ ] add check for sudoers
 - [ ] edit /etc/lightdm/users.conf

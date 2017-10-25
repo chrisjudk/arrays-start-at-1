@@ -46,7 +46,9 @@ cp /etc/login.defs /etc/login.defs.old
 mv /var/local/temp3.txt /etc/login.defs
 # SSH daemon config
 echo "disabling root login"
-sed -e "29s/.*/PermitRootLogin no/" > /var/local/temp4.txt
+# get the line number of the PermitRootLogin line
+PRL="$(grep -n 'PermitRootLogin' etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
+sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config> /var/local/temp4.txt
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
 mv /var/local/temp4.txt /etc/ssh/sshd_config
 # Find all video files
@@ -60,7 +62,7 @@ echo "Outputting cronjobs to /var/local/cronjoblist.log"
 crontab -l >> /var/local/cronjoblist.log
 # List all connections, open or listening
 echo "finding open connections and outputting to /var/local/netstat.log"
-ss -an4 > /var/local/netstat.log 
+ss -an4 > /var/local/netstat.log
 # Install clam antivirus
 echo "installing clam antivirus"
 apt-get install clamav -y
