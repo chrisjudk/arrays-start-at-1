@@ -4,6 +4,12 @@
 echo "getting updates"
 apt-get update
 
+#Install and enable auditing
+echo "Installing auditing daemon"
+apt-get install auditd
+echo "enabling auditing"
+auditctl -e 1 > /var/local/audit.log
+
 # Install Uncomplicated Firewall (UFW)
 echo "installing Uncomplicated firewall"
 apt-get install ufw -y
@@ -35,6 +41,7 @@ echo -n "" > /var/local/cronjoblist.log
 # Add additional instructions to log file
 echo "adding instructions to log file"
 echo "getent group <groupname> |||| Users in group" >> /var/local/ASAO.log
+echo "edit /etc/audit/auditd.conf" >> /var/local/ASAO.log
 echo "Don't Forget to Restart" >> /var/local/ASAO.log
 echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords-against-a-dictionary-attack.html" >> /var/local/ASAO.log
 

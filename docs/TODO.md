@@ -13,6 +13,8 @@
     ```
 - [ ] create a menu system rather than just autorun
 - [ ] setup auditing
+  - [x] Install auditd
+  - [ ] configure /etc/audit/auditd.conf
 - [ ] group management
 ## Windows
 - [ ] start working on powershell script
