@@ -21,6 +21,11 @@ if [ -r Ubuntu.conf ]; then
     echo "installing Uncomplicated firewall"
     apt-get install ufw -y
   fi
+
+  # Install openssh-server
+  if [ "$INSTALL_SSH_SERVER" == "true" ]; then
+    apt-get install openssh-server -y
+  fi
   # Upgrade all installed packages
   if [ "$UPGRADES" == "true" ]; then
   echo "installing updates"
