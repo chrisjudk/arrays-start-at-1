@@ -17,11 +17,11 @@ cd ~/Downloads
 		```
 3. Change ownership to root user
 ```bash
-sudo chown root:root ./Ubuntu.sh
+sudo chown root:root ./Ubuntu.sh ./Ubuntu.conf
 ```
 4. Change execute permissions to 770
 ```bash
-sudo chmod 770 ./Ubuntu.sh
+sudo chmod 770 ./Ubuntu.sh ./Ubuntu.conf
 ```
 5. Run the file
 ```bash
