@@ -11,7 +11,7 @@
     ```bash
     allow-guest=false
     ```
-- [ ] create a menu system rather than just autorun
+- [x] create a ~~menu system~~ config file rather than just autorun
 - [ ] setup auditing
   - [x] Install auditd
   - [ ] configure /etc/audit/auditd.conf
