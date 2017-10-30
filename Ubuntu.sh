@@ -4,12 +4,12 @@ if [ -r Ubuntu.conf ]; then
   source Ubuntu.conf
 
   # Get updates
-  if [ "$UPDATES" == "true" ]; then
+  if [ "$UPDATES" = true ]; then
     echo "getting updates"
     apt-get update
   fi
   #Install and enable auditing
-  if [ "$AUDITING" == "true" ]; then
+  if [ "$AUDITING" = true ]; then
     echo "Installing auditing daemon"
     apt-get install auditd
     echo "enabling auditing"
@@ -17,30 +17,30 @@ if [ -r Ubuntu.conf ]; then
   fi
 
   # Install Uncomplicated Firewall (UFW)
-  if [ "$FIREWALL" == "true" ]; then
+  if [ "$FIREWALL" = true ]; then
     echo "installing Uncomplicated firewall"
     apt-get install ufw -y
   fi
 
   # Install openssh-server
-  if [ "$INSTALL_SSH_SERVER" == "true" ]; then
+  if [ "$INSTALL_SSH_SERVER" = true ]; then
     apt-get install openssh-server -y
   fi
   # Upgrade all installed packages
-  if [ "$UPGRADES" == "true" ]; then
+  if [ "$UPGRADES" = true ]; then
   echo "installing updates"
   apt-get upgrade -y
   fi
 
   # Clean up unnecessary junk
-  if [ "$CLEAN" == "true" ]; then
+  if [ "$CLEAN" = true ]; then
     echo "running autoclean and autoremove"
     apt-get autoclean
     apt-get autoremove -y
   fi
 
   # enable UFW
-  if [ "$FIREWALL" == "true" ]; then
+  if [ "$FIREWALL" = true ]; then
     echo "enabling UFW"
     ufw enable
   fi
@@ -64,13 +64,13 @@ if [ -r Ubuntu.conf ]; then
   echo "more password stuff @ https://www.cyberciti.biz/tips/linux-check-passwords-against-a-dictionary-attack.html" >> /var/local/ASAO.log
 
   # Install libpam-cracklib which is used to check passwords
-  if [ "$LPAMCLIB" == "true" ]; then
+  if [ "$LPAMCLIB" = true ]; then
     echo "installing libpam-cracklib for passwords"
     apt-get install libpam-cracklib -y
   fi
 
   # Pam config
-  if [ "$PAMCONF" == "true"]; then
+  if [ "$PAMCONF" = true ]; then
     echo "changing PAM config"
     # grep for 'pam_unix.so' and get line number
     PAMUNIX="$(grep -n 'pam_unix.so' /etc/pam.d/common-password | grep -v '#' | cut -f1 -d:)"
@@ -84,7 +84,7 @@ if [ -r Ubuntu.conf ]; then
   fi
 
   # Password aging policy
-  if [ "$PSAGE" == "true" ]; then
+  if [ "$PSAGE" = true ]; then
     echo "setting passwords to reset after 30 days"
     PASSMAX="$(grep -n 'PASS_MAX_DAYS' /etc/login.defs | grep -v '#' | cut -f1 -d:)"
     sed -e "${PASSMAX}s/.*/PASS_MAX_DAYS	90/" /etc/login.defs > /var/local/temp1.txt
@@ -98,12 +98,12 @@ if [ -r Ubuntu.conf ]; then
   fi
 
   # Password Lockout
-  if [ "$PSLOCKOUT" == "true" ]; then
+  if [ "$PSLOCKOUT" = true ]; then
     echo "auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800" >> /etc/pam.d/common-auth
   fi
 
   # SSH daemon config
-  if [ "$DISABLE_ROOT_SSH" == "true" ]; then
+  if [ "$DISABLE_ROOT_SSH" = true ]; then
     echo "disabling root login"
     # get the line number of the PermitRootLogin line
     PRL="$(grep -n 'PermitRootLogin' etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
@@ -113,13 +113,13 @@ if [ -r Ubuntu.conf ]; then
   fi
 
   # Disable the guest account
-  if [ "$DISABLE_GUEST" == "true" ]; then
+  if [ "$DISABLE_GUEST" = true ]; then
     echo "disabling guest account"
     echo "allow-guest=false" >> /etc/lightdm/lightdm.conf
   fi
 
   # Find all video files
-  if [ "$MEDIA_LOCATIONS" == "true" ]; then
+  if [ "$MEDIA_LOCATIONS" = true ]; then
     echo "Finding Media Files"
     echo "||||Video Files||||" >> /var/local/mediafiles.log
     locate *.mkv *.webm *.flv *.vob *.ogv *.drc *.gifv *.mng *.avi$ *.mov *.qt *.wmv *.yuv *.rm *.rmvb *.asf *.amv *.mp4$ *.m4v *.mp *.m?v *.svi *.3gp *.flv *.f4v >> /var/local/mediafiles.log
@@ -128,25 +128,25 @@ if [ -r Ubuntu.conf ]; then
   fi
 
   # Lists all cronjobs & output to /var/local/cronjoblist.log
-  if [ "$LOG_CRON" == "true" ]; then
+  if [ "$LOG_CRON" = true ]; then
     echo "Outputting cronjobs to /var/local/cronjoblist.log"
     crontab -l >> /var/local/cronjoblist.log
   fi
 
   # List all connections, open or listening
-  if [ "$LOG_NETSTAT" == "true" ]; then
+  if [ "$LOG_NETSTAT" = true ]; then
     echo "finding open connections and outputting to /var/local/netstat.log"
     ss -an4 > /var/local/netstat.log
   fi
 
   # Install clam antivirus
-  if [ "$INSTALL_CLAM" == "true" ]; then
+  if [ "$INSTALL_CLAM" = true ]; then
     echo "installing clam antivirus"
     apt-get install clamav -y
   fi
 
   # Run clamav
-  if [ "$CLAM_HOME" == "true" ]; then
+  if [ "$CLAM_HOME" = true ]; then
     # Update clam signatures
     echo "updating clam signatures"
     freshclam
