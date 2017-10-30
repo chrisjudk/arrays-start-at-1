@@ -2,7 +2,7 @@
 This project is for the "Arrays start at 1" CP team at greenbrier high school.
 # How To Use
 ## Linux
-1. Switch to the /home/\<User\>/Downloads directory 
+1. Switch to the /home/\<User\>/Downloads directory
 ```bash
 cd ~/Downloads
 ```
@@ -13,7 +13,7 @@ cd ~/Downloads
 		```
 	- Testing version
 		```bash
-		wget https://raw.githubusercontent.com/chrisjudk/arrays-start-at-1/testing/Ubuntu.sh
+		wget https://raw.githubusercontent.com/chrisjudk/arrays-start-at-1/testing/Ubuntu.sh https://raw.githubusercontent.com/chrisjudk/arrays-start-at-1/testing/Ubuntu.conf
 		```
 3. Change ownership to root user
 ```bash
