@@ -79,7 +79,7 @@ if [ -r Ubuntu.conf ]; then
     PAMCRACKLIB="$(grep -n 'pam_cracklib.so' /etc/pam.d/common-password | grep -v '#' | cut -f1 -d:)"
     sed -e "${PAMCRACKLIB}s/.*/password	requisite	pam_cracklib.so retry=3 minlen=8 difok=3 ucredit=-1 1credit=-2 ocredit=-1/" /var/local/temp.txt > /var/local/temp2.txt
     rm /var/local/temp.txt
-    cp /etc/pam.d/common-password /etc/pam.d/common-password.old
+    mv /etc/pam.d/common-password /etc/pam.d/common-password.old
     mv /var/local/temp2.txt /etc/pam.d/common-password
   fi
 
@@ -92,13 +92,15 @@ if [ -r Ubuntu.conf ]; then
     sed -e "${PASSMIN}s/.*/PASS_MIN_DAYS	10/" /var/local/temp1.txt > /var/local/temp2.txt
     PASSWARN="$(grep -n 'PASS_WARN_AGE' /etc/login.defs | grep -v '#' | cut -f1 -d:)"
     sed -e "${PASSWARN}s/.*/PASS_WARN_AGE	7/" /var/local/temp2.txt > /var/local/temp3.txt
-    cp /etc/login.defs /etc/login.defs.old
+    mv /etc/login.defs /etc/login.defs.old
     mv /var/local/temp3.txt /etc/login.defs
     rm /var/local/temp1.txt /var/local/temp2.txt
   fi
 
   # Password Lockout
   if [ "$PSLOCKOUT" = true ]; then
+    echo "Enabling account lockout"
+    cp /etc/pam.d/common-auth /etc/pam.d/common-auth.old
     echo "auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800" >> /etc/pam.d/common-auth
   fi
 
@@ -108,13 +110,14 @@ if [ -r Ubuntu.conf ]; then
     # get the line number of the PermitRootLogin line
     PRL="$(grep -n 'PermitRootLogin' /etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
     sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config > /var/local/temp1.txt
-    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
+    mv /etc/ssh/sshd_config /etc/ssh/sshd_config.old
     mv /var/local/temp1.txt /etc/ssh/sshd_config
   fi
 
   # Disable the guest account
   if [ "$DISABLE_GUEST" = true ]; then
     echo "disabling guest account"
+    cp /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf.old
     echo "allow-guest=false" >> /etc/lightdm/lightdm.conf
   fi
 
