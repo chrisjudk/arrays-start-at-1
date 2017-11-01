@@ -6,12 +6,12 @@ if [ -r Ubuntu.conf ]; then
   # Get updates
   if [ "$UPDATES" = true ]; then
     echo "getting updates"
-    apt-get update
+    apt-get update -y
   fi
   #Install and enable auditing
   if [ "$AUDITING" = true ]; then
     echo "Installing auditing daemon"
-    apt-get install auditd
+    apt-get install auditd -y
     echo "enabling auditing"
     auditctl -e 1 > /var/local/audit.log
   fi
@@ -35,7 +35,7 @@ if [ -r Ubuntu.conf ]; then
   # Clean up unnecessary junk
   if [ "$CLEAN" = true ]; then
     echo "running autoclean and autoremove"
-    apt-get autoclean
+    apt-get autoclean -y
     apt-get autoremove -y
   fi
 
