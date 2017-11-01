@@ -106,8 +106,8 @@ if [ -r Ubuntu.conf ]; then
   if [ "$DISABLE_ROOT_SSH" = true ]; then
     echo "disabling root login"
     # get the line number of the PermitRootLogin line
-    PRL="$(grep -n 'PermitRootLogin' etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
-    sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config> /var/local/temp1.txt
+    PRL="$(grep -n 'PermitRootLogin' /etc/ssh/sshd_config | grep -v '#' | cut -f1 -d:)"
+    sed -e "${PRL}s/.*/PermitRootLogin no/" /etc/ssh/sshd_config > /var/local/temp1.txt
     cp /etc/ssh/sshd_config /etc/ssh/sshd_config.old
     mv /var/local/temp1.txt /etc/ssh/sshd_config
   fi
