@@ -26,6 +26,13 @@ if [ -r Ubuntu.conf ]; then
   if [ "$INSTALL_SSH_SERVER" = true ]; then
     apt-get install openssh-server -y
   fi
+  
+  #Install unattended-upgrades
+  if [ "$INSTALL_UNATTENDED_UPGRADES" = true ]; then
+    echo "installing unattended upgrades"
+    apt-get install unattended-upgrades -y
+  fi
+  
   # Upgrade all installed packages
   if [ "$UPGRADES" = true ]; then
   echo "installing updates"
@@ -44,7 +51,13 @@ if [ -r Ubuntu.conf ]; then
     echo "enabling UFW"
     ufw enable
   fi
-
+  
+  # enable unattended-upgrades
+  if [ "$ENABLE_UNATTENDED_UPGRADES" = true ]; then
+    echo "enabling unattended upgrades"
+    dpkg-reconfigure --priority=low unattended-upgrades
+  fi
+  
   # make log dir
   echo "creating /var/local"
   mkdir /var/local/
@@ -69,6 +82,18 @@ if [ -r Ubuntu.conf ]; then
     apt-get install libpam-cracklib -y
   fi
 
+  # Unattended-upgrades config
+  if [ "$UNATTENDED_CONFIG" = true ]; then
+    echo "configuring unattended upgrades"
+    XENIALSEC="$(grep -n 'Ubuntu xenial-security' /etc/apt/apt.conf.d/50unattended-upgrades | grep -v '#' | cut -f1 -d:)"
+    sed -e "${XENIALSEC}s/.*/"Ubuntu xenial-security";/" /etc/apt/apt.conf.d/50unattended-upgrades > /var/local/temp.txt
+    XENIALUPD="$(grep -n 'Ubuntu xenial-updates' /var/local/temp.txt | grep .v '#' | cut -f1 -d:)"
+    sed -e "${XENIALUPD}s/.*/"Ubuntu xenial-updates";/" /var/local/temp.txt > /var/local/temp2.txt
+    rm /var/local/temp.txt
+    mv /etc/apt/apt.conf.d/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades.old
+    mv /var/local/temp2.txt /etc/apt/apt.conf.d/50unattended-upgrades
+  fi
+  
   # Pam config
   if [ "$PAMCONF" = true ]; then
     echo "changing PAM config"
