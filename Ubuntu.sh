@@ -29,7 +29,7 @@ if [ -r Ubuntu.conf ]; then
   # Upgrade all installed packages
   if [ "$UPGRADES" = true ]; then
   echo "installing updates"
-  apt-get upgrade -y
+  apt-get dist-upgrade -y
   fi
 
   # Clean up unnecessary junk
