@@ -55,6 +55,7 @@ if [ -r Ubuntu.conf ]; then
   echo -n "" > /var/local/ASAO.log
   echo -n "" > /var/local/mediafiles.log
   echo -n "" > /var/local/cronjoblist.log
+  echo -n "" > /var/local/pslist.log
 
   # Add additional instructions to log file
   echo "adding instructions to log file"
@@ -135,7 +136,11 @@ if [ -r Ubuntu.conf ]; then
     echo "Outputting cronjobs to /var/local/cronjoblist.log"
     crontab -l >> /var/local/cronjoblist.log
   fi
-
+  # List all processes & output to /var/local/pslist.log
+  if [ "$PS_LOG" = true ]; then
+    echo "Outputting processes to /var/local/pslist.log"
+    ps axk start_time -o start_time,pid,user,cmd >> /var/local/pslist.log
+  fi
   # List all connections, open or listening
   if [ "$LOG_NETSTAT" = true ]; then
     echo "finding open connections and outputting to /var/local/netstat.log"
