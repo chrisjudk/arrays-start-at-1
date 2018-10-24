@@ -11,4 +11,4 @@ This project was created for the "Arrays start at 1" CyberPatriot team at greenb
 ## Installation Instructions:
 [Installation Guide](https://github.com/chrisjudk/arrays-start-at-1/wiki/Installation)
 ## Features & Things to be Added:
-[To Do](https://github.com/chrisjudk/arrays-start-at-1/wiki/To-Do)
+[To Do](https://github.com/chrisjudk/arrays-start-at-1/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
